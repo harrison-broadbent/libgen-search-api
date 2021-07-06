@@ -81,6 +81,26 @@ results = s.search_author("Jane Austen")
 print(results)
 ```
 
+### Exception Handling
+
+Search methods throw one of two exceptions when something goes wrong:
+A `SystemError`, for connectivity issues.
+A `ValueError`, for queries that Library Genesis considers invalid, such as very short queries.
+
+```python
+from libgen_api import LibgenSearch
+import sys
+s = LibgenSearch()
+try:
+    results = s.search_author(input())
+except ValueError:
+    # Handle query error
+except SystemError:
+    # Handle network error
+# No exceptions were raised: proceed
+print(results)
+```
+
 ## Filtered Searching
 
 Skip to the [Examples](#filtered-title-searching)

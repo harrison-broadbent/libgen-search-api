@@ -50,7 +50,12 @@ class SearchRequest:
             search_url = (
                 f"http://gen.lib.rus.ec/search.php?req={query_parsed}&column=author"
             )
-        search_page = requests.get(search_url)
+
+        try:
+            search_page = requests.get(search_url)
+        except requests.exceptions.RequestException as exc:
+            raise SystemError('could not connect to libgen') from exc
+
         return search_page
 
     def aggregate_request_data(self):
@@ -60,7 +65,11 @@ class SearchRequest:
 
         # Libgen results contain 3 tables
         # Table2: Table of data to scrape.
-        information_table = soup.find_all("table")[2]
+
+        try:
+            information_table = soup.find_all("table")[2]
+        except IndexError as exc:
+            raise ValueError('invalid query') from exc
 
         # Determines whether the link url (for the mirror)
         # or link text (for the title) should be preserved.

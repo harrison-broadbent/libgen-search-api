@@ -1,10 +1,8 @@
 from libgen_api.libgen_search import LibgenSearch
-
 title = "Pride and Prejudice"
 author = "Agatha Christie"
 
 ls = LibgenSearch()
-
 
 class TestBasicSearching:
     def test_title_search(self):
@@ -82,6 +80,29 @@ class TestBasicSearching:
         assert (["GET", "Cloudflare", "IPFS.io", "Infura"] == list(dl_links.keys())) & (
             False not in [len(link) > 0 for key, link in dl_links.items()]
         )
+
+    def test_bad_query(self):
+        gotValueError = False
+        try:
+            ls.search_author("")
+        except ValueError:
+            gotValueError = True
+        
+        assert gotValueError
+
+    def test_no_network(self):
+        gotSystemError = False
+
+        # Kill the network 
+
+        try:
+            titles = ls.search_author(author)
+        except SystemError:
+            gotSystemError = True
+
+        # Bring it back up
+
+        assert gotSystemError
 
 
 ####################
