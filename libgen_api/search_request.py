@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 # WHY
 # The SearchRequest module contains all the internal logic for the library.
 #
@@ -12,7 +13,6 @@ from bs4 import BeautifulSoup
 
 
 class SearchRequest:
-
     col_names = [
         "ID",
         "Author",
@@ -24,10 +24,6 @@ class SearchRequest:
         "Size",
         "Extension",
         "Mirror_1",
-        "Mirror_2",
-        "Mirror_3",
-        "Mirror_4",
-        "Mirror_5",
         "Edit",
     ]
 
@@ -47,11 +43,11 @@ class SearchRequest:
         query_parsed = "%20".join(self.query.split(" "))
         if self.search_type.lower() == "title":
             search_url = (
-                f"https://libgen.is/search.php?req={query_parsed}&column=title"
+                f"https://libgen.is/search.php?req={query_parsed}&column=title&res=100"
             )
         elif self.search_type.lower() == "author":
             search_url = (
-                f"https://libgen.is/search.php?req={query_parsed}&column=author"
+                f"https://libgen.is/search.php?req={query_parsed}&column=author&res=100"
             )
         search_page = requests.get(search_url)
         return search_page
@@ -73,14 +69,14 @@ class SearchRequest:
             [
                 td.a["href"]
                 if td.find("a")
-                and td.find("a").has_attr("title")
-                and td.find("a")["title"] != ""
+                   and td.find("a").has_attr("title")
+                   and td.find("a")["title"] != ""
                 else "".join(td.stripped_strings)
                 for td in row.find_all("td")
             ]
             for row in information_table.find_all("tr")[
-                1:
-            ]  # Skip row 0 as it is the headings row
+                       1:
+                       ]  # Skip row 0 as it is the headings row
         ]
 
         output_data = [dict(zip(self.col_names, row)) for row in raw_data]

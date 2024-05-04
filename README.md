@@ -83,6 +83,41 @@ results = s.search_author("Jane Austen")
 print(results)
 ```
 
+### Search
+```python
+# search( query, search_type="title" )
+from libgen_api import LibgenSearch
+s = LibgenSearch()
+results = s.search("Jane Austen",search_type="title")
+print(result)
+```
+Example output:
+
+return a list of result that include image url and download link
+
+```json
+[
+   {
+      "ID": "4079028",
+      "Author": "Max Deeg;Oliver Freiberger;Christoph Kleine;Karénina Kollmar-Paulenz",
+      "Title": "Grenzen der Religion: Säkularität in der Asiatischen Religionsgeschichte",
+      "Publisher": "Vandenhoeck & Ruprecht",
+      "Year": "2023",
+      "Pages": "[353]",
+      "Language": "German",
+      "Size": "5 Mb",
+      "Extension": "pdf",
+      "Mirror_1": {
+         "GET": "http://example.com/file.epub", #new
+         "image_url": "http://library.lol/covers/example.jpg" #new
+      },
+      "Mirror_2": "http://libgen.li/ads.php?md5=81A9029BB16A1483B001269579ED4D60",
+      "Mirror_3": "https://library.bz/main/edit/81A9029BB16A1483B001269579ED4D60"
+   }
+]
+
+```
+
 ## Filtered Searching
 
 Skip to the [Examples](#filtered-title-searching)
