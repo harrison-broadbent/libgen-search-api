@@ -6,12 +6,12 @@ MIRROR_SOURCES = ["GET", "Cloudflare", "IPFS.io", "Infura"]
 
 
 class LibgenSearch:
-    def search_title(self, query):
-        search_request = SearchRequest(query, search_type="title")
+    def search_title(self, query, page=1, res=25):
+        search_request = SearchRequest(query, search_type="title", page=page, res=res)
         return search_request.aggregate_request_data()
 
-    def search_author(self, query):
-        search_request = SearchRequest(query, search_type="author")
+    def search_author(self, query, page=1, res=25):
+        search_request = SearchRequest(query, search_type="author", page=page, res=res)
         return search_request.aggregate_request_data()
 
     def search_title_filtered(self, query, filters, exact_match=True):
