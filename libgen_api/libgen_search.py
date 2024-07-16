@@ -21,6 +21,22 @@ class LibgenSearch:
             results=results, filters=filters, exact_match=exact_match
         )
         return filtered_results
+    
+    def search(self, query, search_type):
+        """
+            Search for a query in the specified search_type.
+
+            search_type can be:
+                - title
+                - author
+                - publisher
+                - series
+                - year
+                - ISBN
+                - language
+        """
+        search_request = SearchRequest(query, search_type=search_type)
+        return search_request.aggregate_request_data()
 
     def search_author_filtered(self, query, filters, exact_match=True):
         search_request = SearchRequest(query, search_type="author")
