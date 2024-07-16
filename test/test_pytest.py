@@ -20,6 +20,7 @@ class TestBasicSearching:
 
         assert author in first_result["Author"]
 
+
     def test_title_filtering(self):
         title_filters = {"Year": "2007", "Extension": "epub"}
         titles = ls.search_title_filtered(title, title_filters, exact_match=True)
@@ -38,6 +39,21 @@ class TestBasicSearching:
             author_filters, first_result
         )
 
+    def test_search(self):
+        titles = ls.search(author, search_type="author")
+        first_result = titles[0]
+
+        assert author in first_result["Author"]
+
+    def test_filtered_search(self):
+        author_filters = {"Language": "German", "Year": "2009"}
+        titles = ls.search_filtered(author, author_filters, search_type="author")
+        first_result = titles[0]
+
+        assert (author in first_result["Author"]) & fields_match(
+            author_filters, first_result
+        )
+    
     # explicit test of exact filtering
     # should return no results as they will all get filtered out
     def test_exact_filtering(self):

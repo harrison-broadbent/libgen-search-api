@@ -45,14 +45,10 @@ class SearchRequest:
 
     def get_search_page(self):
         query_parsed = "%20".join(self.query.split(" "))
-        if self.search_type.lower() == "title":
-            search_url = (
-                f"https://libgen.is/search.php?req={query_parsed}&column=title"
-            )
-        elif self.search_type.lower() == "author":
-            search_url = (
-                f"https://libgen.is/search.php?req={query_parsed}&column=author"
-            )
+        if self.search_type != None:
+            search_url = f"https://libgen.is/search.php?req={query_parsed}&column={self.search_type.lower()}"
+        else:
+           raise Exception("Search type not specified")
         search_page = requests.get(search_url)
         return search_page
 
