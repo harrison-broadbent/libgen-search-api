@@ -21,6 +21,14 @@ class LibgenSearch:
             results=results, filters=filters, exact_match=exact_match
         )
         return filtered_results
+
+    def search_author_filtered(self, query, filters, exact_match=True):
+        search_request = SearchRequest(query, search_type="author")
+        results = search_request.aggregate_request_data()
+        filtered_results = filter_results(
+            results=results, filters=filters, exact_match=exact_match
+        )
+        return filtered_results
     
     def search(self, query, search_type):
         """
@@ -38,14 +46,14 @@ class LibgenSearch:
         search_request = SearchRequest(query, search_type=search_type)
         return search_request.aggregate_request_data()
 
-    def search_author_filtered(self, query, filters, exact_match=True):
-        search_request = SearchRequest(query, search_type="author")
+    def search_filtered(self, query, filters, search_type, exact_match=True):
+        search_request = SearchRequest(query, search_type=search_type)
         results = search_request.aggregate_request_data()
         filtered_results = filter_results(
             results=results, filters=filters, exact_match=exact_match
         )
         return filtered_results
-
+    
     def resolve_download_links(self, item):
         mirror_1 = item["Mirror_1"]
         page = requests.get(mirror_1)
