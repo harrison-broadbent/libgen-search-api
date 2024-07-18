@@ -31,9 +31,11 @@ class SearchRequest:
         "Edit",
     ]
 
-    def __init__(self, query, search_type="title"):
+    def __init__(self, query, search_type="title", page=1, res=25):
         self.query = query
         self.search_type = search_type
+        self.page = page
+        self.res = res
 
         if len(self.query) < 3:
             raise Exception("Query is too short")
@@ -45,14 +47,12 @@ class SearchRequest:
 
     def get_search_page(self):
         query_parsed = "%20".join(self.query.split(" "))
+        search_url = f"https://libgen.is/search.php?req={query_parsed}&page={self.page}&res={self.res}"
+
         if self.search_type.lower() == "title":
-            search_url = (
-                f"https://libgen.is/search.php?req={query_parsed}&column=title"
-            )
+            search_url = search_url + "&column=title"
         elif self.search_type.lower() == "author":
-            search_url = (
-                f"https://libgen.is/search.php?req={query_parsed}&column=author"
-            )
+            search_url = search_url + "&column=author"
         search_page = requests.get(search_url)
         return search_page
 
